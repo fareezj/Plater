@@ -7,12 +7,15 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.plater.view.MainFragment"
+        android:name="com.example.plater.view.dashboard.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" >
         <action
             android:id="@+id/action_mainFragment_to_recipeCategoriesFragment"
             app:destination="@id/recipeCategoriesFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_favouriteRecipeFragment"
+            app:destination="@id/favouriteRecipeFragment" />
     </fragment>
     <fragment
         android:id="@+id/recipeCategoriesFragment"
@@ -37,4 +40,9 @@
         android:name="com.example.plater.view.details.RecipeDetailsFragment"
         android:label="fragment_recipe_details"
         tools:layout="@layout/fragment_recipe_details" />
+    <fragment
+        android:id="@+id/favouriteRecipeFragment"
+        android:name="com.example.plater.view.favourite.FavouriteRecipeFragment"
+        android:label="fragment_favourite_recipe"
+        tools:layout="@layout/fragment_favourite_recipe" />
 </navigation>
