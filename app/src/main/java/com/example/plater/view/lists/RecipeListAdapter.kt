@@ -12,12 +12,10 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.plater.R
-import com.example.plater.model.RecipeModel
-import com.example.plater.viewModel.RecipeViewModel
+import com.example.plater.model.RecipeApiModel
 import com.squareup.picasso.Picasso
-import io.reactivex.disposables.CompositeDisposable
 
-class RecipeListAdapter (private val dataList: ArrayList<RecipeModel.RecipeDetails>, val context: Context) :
+class RecipeListAdapter (private val dataList: ArrayList<RecipeApiModel.RecipeDetails>, val context: Context) :
     RecyclerView.Adapter<RecipeListAdapter.ViewHolder>() {
 
     private var bundle = Bundle()
@@ -25,13 +23,13 @@ class RecipeListAdapter (private val dataList: ArrayList<RecipeModel.RecipeDetai
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bindItems(recipeModel: RecipeModel.RecipeDetails){
+        fun bindItems(recipeApiModel: RecipeApiModel.RecipeDetails){
             val ivRecipeList = itemView.findViewById(R.id.iv_recipe_list) as ImageView
             val tvRecipeList = itemView.findViewById(R.id.tv_recipe_list) as TextView
 
-            tvRecipeList.text = recipeModel.label
+            tvRecipeList.text = recipeApiModel.label
             Picasso.get()
-                .load(recipeModel.image)
+                .load(recipeApiModel.image)
                 .fit()
                 .error(android.R.drawable.ic_menu_report_image)
                 .into(ivRecipeList)

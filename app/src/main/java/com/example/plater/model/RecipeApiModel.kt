@@ -2,7 +2,7 @@ package com.example.plater.model
 
 import com.google.gson.annotations.SerializedName
 
-class RecipeModel {
+class RecipeApiModel {
 
     @SerializedName("q")
     var searchTitle: String = ""

@@ -35,15 +35,6 @@ class FavouriteRecipeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recipePreferences = RecipePreferences(requireContext())
-
-        lifecycleScope.launch {
-            recipePreferences.saveBookmark("Harry Potter")
-        }
-
-        recipePreferences.bookmark.asLiveData().observe(requireActivity(), Observer {
-            tv_bookmark.text = it.toString()
-        })
 
     }
 

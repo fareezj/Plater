@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
 
-
         bottom_nav.setOnNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.ic_home -> navController.navigate(R.id.mainFragment)

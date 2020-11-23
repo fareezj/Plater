@@ -7,16 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.view.marginBottom
-import androidx.core.view.marginLeft
-import androidx.core.view.marginRight
-import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.plater.R
-import com.example.plater.model.RecipeModel
+import com.example.plater.model.RecipeApiModel
 import com.example.plater.viewModel.RecipeViewModel
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -24,14 +20,13 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_recipe_details.*
 import kotlinx.android.synthetic.main.toolbar_with_back_button.*
-import org.w3c.dom.Text
 
 
 class RecipeDetailsFragment : Fragment() {
 
     private lateinit var viewModel: RecipeViewModel
     private val subscriptions = CompositeDisposable()
-    private val extractedData = ArrayList<RecipeModel.RecipeDetails>()
+    private val extractedData = ArrayList<RecipeApiModel.RecipeDetails>()
     private lateinit var navController: NavController
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -62,7 +57,7 @@ class RecipeDetailsFragment : Fragment() {
                 .subscribe ({
 
                     pb_loading_detail.visibility = View.VISIBLE
-                    val fetchedData: List<RecipeModel.Recipe>? = it.hits
+                    val fetchedData: List<RecipeApiModel.Recipe>? = it.hits
                     if(fetchedData != null){
 
                         for(i in fetchedData){
@@ -85,7 +80,7 @@ class RecipeDetailsFragment : Fragment() {
         subscriptions.add(subscribe)
     }
 
-    private fun setupUI(data: RecipeModel.RecipeDetails){
+    private fun setupUI(data: RecipeApiModel.RecipeDetails){
 
         Picasso.get()
                 .load(data.image)
@@ -129,11 +124,11 @@ class RecipeDetailsFragment : Fragment() {
             }
         }
 
-        val fetchedNutrients: RecipeModel.Nutrients? = data.totalNutrients
+        val fetchedNutrients: RecipeApiModel.Nutrients? = data.totalNutrients
 
-        val filteredFat: RecipeModel.NutrientDetails? = fetchedNutrients?.fat
-        val filteredProtein: RecipeModel.NutrientDetails? = fetchedNutrients?.protein
-        val filteredCarbs: RecipeModel.NutrientDetails? = fetchedNutrients?.carbs
+        val filteredFat: RecipeApiModel.NutrientDetails? = fetchedNutrients?.fat
+        val filteredProtein: RecipeApiModel.NutrientDetails? = fetchedNutrients?.protein
+        val filteredCarbs: RecipeApiModel.NutrientDetails? = fetchedNutrients?.carbs
 
         if(filteredFat != null && filteredCarbs != null && filteredProtein != null){
 
