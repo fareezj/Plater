@@ -13,6 +13,9 @@ data class RecipeRoomModel(
     @ColumnInfo(name = "recipe_name")
     val recipeName: String,
 
+    @ColumnInfo(name = "recipe_image")
+    val recipeImage: String,
+
     @ColumnInfo(name = "diet_label")
     val dietLabel: String,
 
@@ -20,7 +23,7 @@ data class RecipeRoomModel(
     val foodHealthChecks: List<String>,
 
     @ColumnInfo(name = "recipe_ingredients")
-    val recipe_ingredients: String,
+    val recipe_ingredients: List<String>,
 
     @ColumnInfo(name = "fat_stat")
     val fat_stat: String,

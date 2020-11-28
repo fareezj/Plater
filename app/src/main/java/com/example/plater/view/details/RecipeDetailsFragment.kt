@@ -6,7 +6,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -40,6 +43,19 @@ class RecipeDetailsFragment : Fragment() {
 
         navController = Navigation.findNavController(view)
         viewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
+
+        tb_favourite.setBackgroundDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_star_outline_24))
+        tb_favourite.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked){
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_star_24)
+                Toast.makeText(requireContext(), "is checked", Toast.LENGTH_LONG).show()
+            }else{
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_star_outline_24)
+                Toast.makeText(requireContext(), "is not checked", Toast.LENGTH_LONG).show()
+
+            }
+        }
+
 
         val fetchedData: String? = arguments?.getString("recipeName")
         val refinedRecipeInput = fetchedData?.replace("\\s".toRegex(), "+")

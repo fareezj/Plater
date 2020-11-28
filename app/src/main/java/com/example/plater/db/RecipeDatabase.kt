@@ -1,12 +1,12 @@
 package com.example.plater.db
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
+import com.example.plater.model.DataConverters
 import com.example.plater.model.RecipeRoomModel
 
 @Database(entities = [RecipeRoomModel::class], version = 1, exportSchema = false)
+@TypeConverters(DataConverters::class)
 public abstract class RecipeDatabase: RoomDatabase() {
 
     abstract fun recipeDao(): RecipeDAO
