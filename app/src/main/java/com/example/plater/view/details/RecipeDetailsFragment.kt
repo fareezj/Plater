@@ -11,11 +11,15 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.room.ColumnInfo
+import androidx.room.PrimaryKey
 import com.example.plater.R
 import com.example.plater.model.RecipeApiModel
+import com.example.plater.model.RecipeRoomModel
 import com.example.plater.viewModel.RecipeViewModel
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -27,10 +31,20 @@ import kotlinx.android.synthetic.main.toolbar_with_back_button.*
 
 class RecipeDetailsFragment : Fragment() {
 
-    private lateinit var viewModel: RecipeViewModel
+    private lateinit var recipeViewModel: RecipeViewModel
     private val subscriptions = CompositeDisposable()
     private val extractedData = ArrayList<RecipeApiModel.RecipeDetails>()
     private lateinit var navController: NavController
+
+    private var room_recipeName: String? = null
+    private var room_recipeImage: String? = null
+    private var room_dietLabel: List<String>? = null
+    private var room_foodHealthChecks: List<String>? = null
+    private var room_recipe_ingredients: List<String>? = null
+    private var room_fat_stat: String? = null
+    private var room_protein_stat: String? = null
+    private var room_carbs_stat: String? = null
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -42,20 +56,9 @@ class RecipeDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         navController = Navigation.findNavController(view)
-        viewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
+        recipeViewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
 
         tb_favourite.setBackgroundDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_star_outline_24))
-        tb_favourite.setOnCheckedChangeListener { _, isChecked ->
-            if(isChecked){
-                ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_star_24)
-                Toast.makeText(requireContext(), "is checked", Toast.LENGTH_LONG).show()
-            }else{
-                ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_star_outline_24)
-                Toast.makeText(requireContext(), "is not checked", Toast.LENGTH_LONG).show()
-
-            }
-        }
-
 
         val fetchedData: String? = arguments?.getString("recipeName")
         val refinedRecipeInput = fetchedData?.replace("\\s".toRegex(), "+")
@@ -67,7 +70,7 @@ class RecipeDetailsFragment : Fragment() {
     }
 
     private fun requestRecipeFromApi(query: String) {
-        val subscribe = viewModel.requestGetRecipeFromApi(query)
+        val subscribe = recipeViewModel.requestGetRecipeFromApi(query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe ({
@@ -159,6 +162,50 @@ class RecipeDetailsFragment : Fragment() {
             tv_fat.text = fatDouble.toString() + fatUnit
             tv_protein.text = proteinDouble.toString() + proteinUnit
             tv_carbs.text = carbsDouble.toString() + carbsUnit
+
+            // ROOM COLLECTIONS
+            room_fat_stat = fatUnit
+            room_carbs_stat = carbsUnit
+            room_protein_stat = proteinUnit
+
+        }
+
+        // ROOM COLLECTIONS
+        room_recipeName = data.label
+        room_recipeImage = data.image
+        room_dietLabel = data.dietLabel
+        room_recipe_ingredients = data.ingredients
+        room_foodHealthChecks = data.healthLabel
+
+        tb_favourite.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked){
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_star_24)
+                Toast.makeText(requireContext(), "is checked", Toast.LENGTH_LONG).show()
+
+                val favRecipeData = RecipeRoomModel(
+                        0,
+                        data.label.toString(),
+                        data.image.toString(),
+                        room_dietLabel.toString(),
+                        room_foodHealthChecks!!,
+                        room_recipe_ingredients!!,
+                        room_protein_stat.toString(),
+                        room_carbs_stat.toString(),
+                        room_carbs_stat.toString()
+                )
+                //recipeViewModel.insertFavRecipe(favRecipeData)
+                recipeViewModel.deleteAllFavRecipe()
+
+
+                recipeViewModel.getAllFavouriteRecipes.observe(requireActivity(), Observer { it ->
+                    Log.i("Aryan", it.toString())
+                })
+
+            }else{
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_star_outline_24)
+                Toast.makeText(requireContext(), "is not checked", Toast.LENGTH_LONG).show()
+
+            }
         }
     }
 
