@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CompoundButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -15,8 +14,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.room.ColumnInfo
-import androidx.room.PrimaryKey
 import com.example.plater.R
 import com.example.plater.model.RecipeApiModel
 import com.example.plater.model.RecipeRoomModel
@@ -36,6 +33,7 @@ class RecipeDetailsFragment : Fragment() {
     private val extractedData = ArrayList<RecipeApiModel.RecipeDetails>()
     private lateinit var navController: NavController
 
+    private var room_int: Int = 2
     private var room_recipeName: String? = null
     private var room_recipeImage: String? = null
     private var room_dietLabel: List<String>? = null
@@ -186,16 +184,24 @@ class RecipeDetailsFragment : Fragment() {
                         0,
                         data.label.toString(),
                         data.image.toString(),
-                        room_dietLabel.toString(),
-                        room_foodHealthChecks!!,
-                        room_recipe_ingredients!!,
-                        room_protein_stat.toString(),
+                        data.dietLabel.toString(),
+                        data.healthLabel!!,
+                        data.ingredients!!,
+                        room_fat_stat.toString(),
                         room_carbs_stat.toString(),
-                        room_carbs_stat.toString()
+                        room_protein_stat.toString()
                 )
-                //recipeViewModel.insertFavRecipe(favRecipeData)
-                recipeViewModel.deleteAllFavRecipe()
+                recipeViewModel.insertFavRecipe(favRecipeData)
+                //recipeViewModel.deleteAllFavRecipe()
 
+                room_fat_stat = null
+                room_carbs_stat = null
+                room_protein_stat = null
+                room_recipeName = null
+                room_recipeImage = null
+                room_dietLabel = null
+                room_recipe_ingredients = null
+                room_foodHealthChecks = null
 
                 recipeViewModel.getAllFavouriteRecipes.observe(requireActivity(), Observer { it ->
                     Log.i("Aryan", it.toString())

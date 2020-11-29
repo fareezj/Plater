@@ -1,6 +1,7 @@
 package com.example.plater.view.dashboard
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +26,7 @@ import kotlinx.coroutines.launch
 
 class MainFragment : Fragment() {
 
-    private lateinit var viewModel: RecipeViewModel
+    private lateinit var recipeViewModel: RecipeViewModel
     private val subscriptions = CompositeDisposable()
     private lateinit var navController: NavController
     private var isFirstTime: Boolean = true
@@ -50,6 +51,11 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         userDataStore = UserDataStore(requireContext())
+
+        recipeViewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
+        recipeViewModel.getAllFavouriteRecipes.observe(requireActivity(), Observer { it ->
+            Log.i("Aryan", it.toString())
+        })
 
         userDataStore.getUserState.asLiveData()
                 .observe(requireActivity(), Observer {
@@ -84,7 +90,7 @@ class MainFragment : Fragment() {
                     }
                 })
 
-        viewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
+        recipeViewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
         navController = Navigation.findNavController(view)
 
         btn_recipe_list.setOnClickListener {
