@@ -192,7 +192,6 @@ class RecipeDetailsFragment : Fragment() {
                         room_protein_stat.toString()
                 )
                 recipeViewModel.insertFavRecipe(favRecipeData)
-                //recipeViewModel.deleteAllFavRecipe()
 
                 room_fat_stat = null
                 room_carbs_stat = null

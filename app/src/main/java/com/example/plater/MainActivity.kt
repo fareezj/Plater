@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import com.example.plater.util.Constants
 import com.example.plater.view.dashboard.UserDataStore
+import com.example.plater.viewModel.RecipeViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_recipe_list.*
@@ -20,6 +22,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var userDataStore: UserDataStore
     private var testI: String = ""
+    private lateinit var recipeViewModel: RecipeViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +32,8 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
 
+        recipeViewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
+        //recipeViewModel.deleteAllFavRecipe()
 
         bottom_nav.setOnNavigationItemSelectedListener {
             when(it.itemId){
