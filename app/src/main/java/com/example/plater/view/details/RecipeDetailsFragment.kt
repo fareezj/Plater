@@ -7,16 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.view.marginBottom
-import androidx.core.view.marginLeft
-import androidx.core.view.marginRight
-import androidx.core.view.marginTop
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.plater.R
-import com.example.plater.model.RecipeModel
+import com.example.plater.model.RecipeApiModel
+import com.example.plater.model.RecipeRoomModel
 import com.example.plater.viewModel.RecipeViewModel
 import com.squareup.picasso.Picasso
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -24,15 +24,25 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_recipe_details.*
 import kotlinx.android.synthetic.main.toolbar_with_back_button.*
-import org.w3c.dom.Text
 
 
 class RecipeDetailsFragment : Fragment() {
 
-    private lateinit var viewModel: RecipeViewModel
+    private lateinit var recipeViewModel: RecipeViewModel
     private val subscriptions = CompositeDisposable()
-    private val extractedData = ArrayList<RecipeModel.RecipeDetails>()
+    private val extractedData = ArrayList<RecipeApiModel.RecipeDetails>()
     private lateinit var navController: NavController
+
+    private var room_int: Int = 2
+    private var room_recipeName: String? = null
+    private var room_recipeImage: String? = null
+    private var room_dietLabel: List<String>? = null
+    private var room_foodHealthChecks: List<String>? = null
+    private var room_recipe_ingredients: List<String>? = null
+    private var room_fat_stat: String? = null
+    private var room_protein_stat: String? = null
+    private var room_carbs_stat: String? = null
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -44,7 +54,9 @@ class RecipeDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         navController = Navigation.findNavController(view)
-        viewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
+        recipeViewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
+
+        tb_favourite.setBackgroundDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_star_outline_24))
 
         val fetchedData: String? = arguments?.getString("recipeName")
         val refinedRecipeInput = fetchedData?.replace("\\s".toRegex(), "+")
@@ -56,13 +68,13 @@ class RecipeDetailsFragment : Fragment() {
     }
 
     private fun requestRecipeFromApi(query: String) {
-        val subscribe = viewModel.requestGetRecipeFromApi(query)
+        val subscribe = recipeViewModel.requestGetRecipeFromApi(query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe ({
 
                     pb_loading_detail.visibility = View.VISIBLE
-                    val fetchedData: List<RecipeModel.Recipe>? = it.hits
+                    val fetchedData: List<RecipeApiModel.Recipe>? = it.hits
                     if(fetchedData != null){
 
                         for(i in fetchedData){
@@ -85,7 +97,7 @@ class RecipeDetailsFragment : Fragment() {
         subscriptions.add(subscribe)
     }
 
-    private fun setupUI(data: RecipeModel.RecipeDetails){
+    private fun setupUI(data: RecipeApiModel.RecipeDetails){
 
         Picasso.get()
                 .load(data.image)
@@ -129,11 +141,11 @@ class RecipeDetailsFragment : Fragment() {
             }
         }
 
-        val fetchedNutrients: RecipeModel.Nutrients? = data.totalNutrients
+        val fetchedNutrients: RecipeApiModel.Nutrients? = data.totalNutrients
 
-        val filteredFat: RecipeModel.NutrientDetails? = fetchedNutrients?.fat
-        val filteredProtein: RecipeModel.NutrientDetails? = fetchedNutrients?.protein
-        val filteredCarbs: RecipeModel.NutrientDetails? = fetchedNutrients?.carbs
+        val filteredFat: RecipeApiModel.NutrientDetails? = fetchedNutrients?.fat
+        val filteredProtein: RecipeApiModel.NutrientDetails? = fetchedNutrients?.protein
+        val filteredCarbs: RecipeApiModel.NutrientDetails? = fetchedNutrients?.carbs
 
         if(filteredFat != null && filteredCarbs != null && filteredProtein != null){
 
@@ -148,6 +160,57 @@ class RecipeDetailsFragment : Fragment() {
             tv_fat.text = fatDouble.toString() + fatUnit
             tv_protein.text = proteinDouble.toString() + proteinUnit
             tv_carbs.text = carbsDouble.toString() + carbsUnit
+
+            // ROOM COLLECTIONS
+            room_fat_stat = fatUnit
+            room_carbs_stat = carbsUnit
+            room_protein_stat = proteinUnit
+
+        }
+
+        // ROOM COLLECTIONS
+        room_recipeName = data.label
+        room_recipeImage = data.image
+        room_dietLabel = data.dietLabel
+        room_recipe_ingredients = data.ingredients
+        room_foodHealthChecks = data.healthLabel
+
+        tb_favourite.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked){
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_star_24)
+                Toast.makeText(requireContext(), "is checked", Toast.LENGTH_LONG).show()
+
+                val favRecipeData = RecipeRoomModel(
+                        0,
+                        data.label.toString(),
+                        data.image.toString(),
+                        data.dietLabel.toString(),
+                        data.healthLabel!!,
+                        data.ingredients!!,
+                        room_fat_stat.toString(),
+                        room_carbs_stat.toString(),
+                        room_protein_stat.toString()
+                )
+                recipeViewModel.insertFavRecipe(favRecipeData)
+
+                room_fat_stat = null
+                room_carbs_stat = null
+                room_protein_stat = null
+                room_recipeName = null
+                room_recipeImage = null
+                room_dietLabel = null
+                room_recipe_ingredients = null
+                room_foodHealthChecks = null
+
+                recipeViewModel.getAllFavouriteRecipes.observe(requireActivity(), Observer { it ->
+                    Log.i("Aryan", it.toString())
+                })
+
+            }else{
+                ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_star_outline_24)
+                Toast.makeText(requireContext(), "is not checked", Toast.LENGTH_LONG).show()
+
+            }
         }
     }
 

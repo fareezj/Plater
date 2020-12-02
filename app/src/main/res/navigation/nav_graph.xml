@@ -3,16 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.plater.view.MainFragment"
+        android:name="com.example.plater.view.dashboard.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" >
         <action
             android:id="@+id/action_mainFragment_to_recipeCategoriesFragment"
             app:destination="@id/recipeCategoriesFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_favouriteRecipeFragment"
+            app:destination="@id/favouriteRecipeFragment" />
     </fragment>
     <fragment
         android:id="@+id/recipeCategoriesFragment"
@@ -37,4 +40,26 @@
         android:name="com.example.plater.view.details.RecipeDetailsFragment"
         android:label="fragment_recipe_details"
         tools:layout="@layout/fragment_recipe_details" />
+    <fragment
+        android:id="@+id/favouriteRecipeFragment"
+        android:name="com.example.plater.view.favourite.FavouriteRecipeFragment"
+        android:label="fragment_favourite_recipe"
+        tools:layout="@layout/fragment_favourite_recipe" />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.plater.view.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.plater.view.register.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
 </navigation>

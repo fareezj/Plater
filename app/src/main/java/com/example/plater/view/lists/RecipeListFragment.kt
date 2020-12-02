@@ -6,22 +6,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.plater.R
-import com.example.plater.model.CategoryModel
-import com.example.plater.model.RecipeModel
-import com.example.plater.view.categories.RecipeCategoriesAdapter
+import com.example.plater.model.RecipeApiModel
 import com.example.plater.viewModel.RecipeViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_main.*
-import kotlinx.android.synthetic.main.fragment_recipe_categories.*
 import kotlinx.android.synthetic.main.fragment_recipe_list.*
 import kotlinx.android.synthetic.main.toolbar_with_back_button.*
 
@@ -30,7 +24,7 @@ class RecipeListFragment : Fragment() {
     private lateinit var viewModel: RecipeViewModel
     private val subscriptions = CompositeDisposable()
     private lateinit var navController: NavController
-    private var recipeList = ArrayList<RecipeModel.RecipeDetails>()
+    private var recipeList = ArrayList<RecipeApiModel.RecipeDetails>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -59,11 +53,11 @@ class RecipeListFragment : Fragment() {
             .subscribe ({
 
                 pb_loading.visibility = View.VISIBLE
-                val fetchedData: List<RecipeModel.Recipe>? = it.hits
+                val fetchedData: List<RecipeApiModel.Recipe>? = it.hits
                 var data = fetchedData
                 if(data != null){
                     for(i in data){
-                        val extractedData: RecipeModel.RecipeDetails? = i.recipe
+                        val extractedData: RecipeApiModel.RecipeDetails? = i.recipe
                         if (extractedData != null) {
                             recipeList.add(extractedData)
                             Log.i("Aryan", extractedData.label)
@@ -80,7 +74,7 @@ class RecipeListFragment : Fragment() {
         subscriptions.add(subscribe)
     }
 
-    private fun setupAdapter(data: ArrayList<RecipeModel.RecipeDetails>) {
+    private fun setupAdapter(data: ArrayList<RecipeApiModel.RecipeDetails>) {
 
         val myAdapter = RecipeListAdapter(data, requireContext())
         rv_recipe_list.layoutManager = LinearLayoutManager(

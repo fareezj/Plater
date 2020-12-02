@@ -1,6 +1,6 @@
 package com.example.plater.network
 
-import com.example.plater.model.RecipeModel
+import com.example.plater.model.RecipeApiModel
 import io.reactivex.Observable
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -16,7 +16,7 @@ interface ApiServices {
     fun getRecipes(
         @Query("q") name: String,
         @Query("app_id") appID: String,
-        @Query("app_key") appKey: String): Observable<RecipeModel>
+        @Query("app_key") appKey: String): Observable<RecipeApiModel>
 
     companion object{
 

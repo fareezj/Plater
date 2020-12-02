@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1077673782082",
+    "firebase_url": "https://plater-6e6c9.firebaseio.com",
+    "project_id": "plater-6e6c9",
+    "storage_bucket": "plater-6e6c9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1077673782082:android:ae5412ab5e222494a036db",
+        "android_client_info": {
+          "package_name": "com.example.plater"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1077673782082-p9qh8maga0ek2kq6nngtjnfnm4mmamav.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYV7eC2VrU25rhenW_pNajL6ZdLmsPvgc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1077673782082-p9qh8maga0ek2kq6nngtjnfnm4mmamav.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
