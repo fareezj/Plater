@@ -60,7 +60,6 @@ class RecipeDetailsFragment : Fragment() {
 
         val fetchedData: String? = arguments?.getString("recipeName")
         val refinedRecipeInput = fetchedData?.replace("\\s".toRegex(), "+")
-        Log.i("Aryan", refinedRecipeInput.toString())
 
         setupToolbar(fetchedData.toString())
         requestRecipeFromApi(refinedRecipeInput.toString())
@@ -80,12 +79,10 @@ class RecipeDetailsFragment : Fragment() {
                         for(i in fetchedData){
                             Log.i("Aryan", "i Data:${i.recipe}")
                             extractedData?.add(i.recipe!!)
-                            Log.i("Aryan", "Extract Data:${extractedData!!.size}")
                         }
 
                         val filteredData = extractedData.elementAt(0)
                         setupUI(filteredData)
-                        Log.i("Aryan", "Filtered Data:${filteredData.label}")
 
                     }
                     pb_loading_detail.visibility = View.GONE
@@ -109,7 +106,6 @@ class RecipeDetailsFragment : Fragment() {
         val ingredientList: List<String>? = data.ingredients
         val dietLabel: List<String>? = data.dietLabel
         val healthLabel: List<String>? = data.healthLabel
-        Log.i("Aryan", "HEALTH LABEL:" + healthLabel?.toString())
 
         if(dietLabel != null){
             tv_dietLabel.text = dietLabel.elementAt(0).toString()
@@ -191,17 +187,9 @@ class RecipeDetailsFragment : Fragment() {
                         room_carbs_stat.toString(),
                         room_protein_stat.toString()
                 )
-                recipeViewModel.insertFavRecipe(favRecipeData)
+                //recipeViewModel.insertFavRecipe(favRecipeData)
                 //recipeViewModel.deleteAllFavRecipe()
-
-//                room_fat_stat = null
-//                room_carbs_stat = null
-//                room_protein_stat = null
-//                room_recipeName = null
-//                room_recipeImage = null
-//                room_dietLabel = null
-//                room_recipe_ingredients = null
-//                room_foodHealthChecks = null
+                recipeViewModel.deleteFavRecipe(data.label)
 
                 recipeViewModel.getAllFavouriteRecipes.observe(requireActivity(), Observer { it ->
                     Log.i("Aryan", it.toString())
