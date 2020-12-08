@@ -77,7 +77,6 @@ class RecipeDetailsFragment : Fragment() {
                     if(fetchedData != null){
 
                         for(i in fetchedData){
-                            Log.i("Aryan", "i Data:${i.recipe}")
                             extractedData?.add(i.recipe!!)
                         }
 
@@ -187,9 +186,9 @@ class RecipeDetailsFragment : Fragment() {
                         room_carbs_stat.toString(),
                         room_protein_stat.toString()
                 )
-                //recipeViewModel.insertFavRecipe(favRecipeData)
+                recipeViewModel.insertFavRecipe(favRecipeData)
                 //recipeViewModel.deleteAllFavRecipe()
-                recipeViewModel.deleteFavRecipe(data.label)
+                //recipeViewModel.deleteFavRecipe(data.label)
 
                 recipeViewModel.getAllFavouriteRecipes.observe(requireActivity(), Observer { it ->
                     Log.i("Aryan", it.toString())
