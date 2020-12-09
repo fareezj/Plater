@@ -39,7 +39,11 @@
         android:id="@+id/recipeDetailsFragment"
         android:name="com.example.plater.view.details.RecipeDetailsFragment"
         android:label="fragment_recipe_details"
-        tools:layout="@layout/fragment_recipe_details" />
+        tools:layout="@layout/fragment_recipe_details" >
+        <action
+            android:id="@+id/action_recipeDetailsFragment_to_favouriteRecipeFragment"
+            app:destination="@id/favouriteRecipeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favouriteRecipeFragment"
         android:name="com.example.plater.view.favourite.FavouriteRecipeFragment"

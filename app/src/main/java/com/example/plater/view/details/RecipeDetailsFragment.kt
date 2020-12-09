@@ -60,7 +60,6 @@ class RecipeDetailsFragment : Fragment() {
 
         val fetchedData: String? = arguments?.getString("recipeName")
         val refinedRecipeInput = fetchedData?.replace("\\s".toRegex(), "+")
-        Log.i("Aryan", refinedRecipeInput.toString())
 
         setupToolbar(fetchedData.toString())
         requestRecipeFromApi(refinedRecipeInput.toString())
@@ -78,14 +77,11 @@ class RecipeDetailsFragment : Fragment() {
                     if(fetchedData != null){
 
                         for(i in fetchedData){
-                            Log.i("Aryan", "i Data:${i.recipe}")
                             extractedData?.add(i.recipe!!)
-                            Log.i("Aryan", "Extract Data:${extractedData!!.size}")
                         }
 
                         val filteredData = extractedData.elementAt(0)
                         setupUI(filteredData)
-                        Log.i("Aryan", "Filtered Data:${filteredData.label}")
 
                     }
                     pb_loading_detail.visibility = View.GONE
@@ -109,7 +105,6 @@ class RecipeDetailsFragment : Fragment() {
         val ingredientList: List<String>? = data.ingredients
         val dietLabel: List<String>? = data.dietLabel
         val healthLabel: List<String>? = data.healthLabel
-        Log.i("Aryan", "HEALTH LABEL:" + healthLabel?.toString())
 
         if(dietLabel != null){
             tv_dietLabel.text = dietLabel.elementAt(0).toString()

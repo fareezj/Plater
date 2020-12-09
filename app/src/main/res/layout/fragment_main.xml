@@ -9,6 +9,20 @@
     <!-- TODO: Update blank fragment layout -->
 
 
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switch_theme"
+        android:layout_width="320dp"
+        android:layout_height="49dp"
+        android:layout_margin="10dp"
+        android:text="Switch theme"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.178"
+        app:switchPadding="10dp" />
+
     <TextView
         android:id="@+id/tv_username"
         android:layout_width="223dp"
@@ -16,44 +30,18 @@
         android:text="@string/hello_blank_fragment"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.244"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.12" />
+        app:layout_constraintVertical_bias="0.119" />
 
-    <EditText
-        android:id="@+id/et_username"
-        android:hint="Enter your name"
-        android:layout_width="233dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:layout_marginBottom="329dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_recipe_list"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_username" />
-
-
-    <Button
-        android:id="@+id/btn_recipe_list"
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Recipe List"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.724" />
+        android:text="PLATER"
+        tools:layout_editor_absoluteX="46dp"
+        tools:layout_editor_absoluteY="51dp" />
 
-    <Button
-        android:id="@+id/btn_input_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="34dp"
-        android:text="Sign me !"
-        app:layout_constraintBottom_toTopOf="@+id/btn_recipe_list"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_username"
-        app:layout_constraintVertical_bias="0.032" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

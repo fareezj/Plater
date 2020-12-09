@@ -60,7 +60,6 @@ class RecipeListFragment : Fragment() {
                         val extractedData: RecipeApiModel.RecipeDetails? = i.recipe
                         if (extractedData != null) {
                             recipeList.add(extractedData)
-                            Log.i("Aryan", extractedData.label)
                         }
                     }
                 }
@@ -69,7 +68,6 @@ class RecipeListFragment : Fragment() {
 
             }, { err ->
                 var msg = err.localizedMessage
-                Log.i("Aryan", msg.toString())
             })
         subscriptions.add(subscribe)
     }
