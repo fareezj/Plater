@@ -187,8 +187,15 @@ class RecipeDetailsFragment : Fragment() {
                         room_protein_stat.toString()
                 )
                 recipeViewModel.insertFavRecipe(favRecipeData)
-                //recipeViewModel.deleteAllFavRecipe()
-                //recipeViewModel.deleteFavRecipe(data.label)
+
+                room_fat_stat = null
+                room_carbs_stat = null
+                room_protein_stat = null
+                room_recipeName = null
+                room_recipeImage = null
+                room_dietLabel = null
+                room_recipe_ingredients = null
+                room_foodHealthChecks = null
 
                 recipeViewModel.getAllFavouriteRecipes.observe(requireActivity(), Observer { it ->
                     Log.i("Aryan", it.toString())
