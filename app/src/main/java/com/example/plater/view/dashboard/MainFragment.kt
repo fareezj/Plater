@@ -1,7 +1,5 @@
 package com.example.plater.view.dashboard
 
-import android.app.Dialog
-import android.app.ProgressDialog.show
 import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
@@ -9,13 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
@@ -25,13 +20,12 @@ import androidx.navigation.Navigation
 import com.example.plater.R
 import com.example.plater.util.Constants
 import com.example.plater.viewModel.RecipeViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.dialog_nickname.*
-import kotlinx.android.synthetic.main.fragment_favourite_recipe.*
 import kotlinx.android.synthetic.main.fragment_main.*
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainFragment : Fragment() {
@@ -57,14 +51,14 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        showDialog("My Nickname")
-
         userDataStore = UserDataStore(requireContext())
 
         recipeViewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
         recipeViewModel.getAllFavouriteRecipes.observe(requireActivity(), Observer { it ->
             Log.i("Aryan", it.toString())
         })
+
+        showNicknameDialog()
 
         userDataStore.getUserState.asLiveData()
                 .observe(requireActivity(), Observer {
@@ -80,8 +74,6 @@ class MainFragment : Fragment() {
                         }
 
                     }else {
-
-                        showDialog("My Nickname")
                     }
                 })
 
@@ -99,16 +91,14 @@ class MainFragment : Fragment() {
 
     }
 
-    private fun showDialog(title: String) {
-        val dialog = Dialog(requireActivity())
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.dialog_nickname)
-        val body = dialog.findViewById(R.id.tv_nickname) as TextView
-        body.text = title
-        val input = dialog.findViewById(R.id.et_nickname) as EditText
-        val yesBtn = dialog.findViewById(R.id.btn_nickname) as Button
-        val noBtn = dialog.findViewById(R.id.btn_nickname_cancel) as Button
-        yesBtn.setOnClickListener {
+    private fun showNicknameDialog(): AlertDialog? {
+
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+        val inflater = this.layoutInflater
+        val dialogView = inflater.inflate(R.layout.dialog_nickname, null)
+        dialogBuilder.setView(dialogView)
+        val input = dialogView.findViewById(R.id.et_nickname) as EditText
+        dialogBuilder.setPositiveButton(getString(R.string.okay_text)) { dialog, which ->
 
             inputUsername = input.text.toString()
 
@@ -118,11 +108,10 @@ class MainFragment : Fragment() {
             lifecycleScope.launch (Dispatchers.Main) {
                 userDataStore.saveUserState(false)
             }
-            Toast.makeText(context,"Data store saved !",Toast.LENGTH_LONG).show()
+            Snackbar.make(requireView(), "Data Store Saved !", Snackbar.LENGTH_SHORT).show()
         }
-        noBtn.setOnClickListener { dialog.dismiss() }
-        dialog.show()
-
+        dialogBuilder.setNegativeButton(getString(R.string.cancel_text)) { dialog, which -> dialog!!.dismiss() }
+        return dialogBuilder.show()
     }
 }
 

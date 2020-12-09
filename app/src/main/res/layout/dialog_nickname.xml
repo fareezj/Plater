@@ -26,26 +26,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_nickname" />
 
-    <Button
-        android:id="@+id/btn_nickname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="33dp"
-        android:layout_marginLeft="33dp"
-        android:layout_marginTop="34dp"
-        android:text="Sign me !"
-        app:layout_constraintStart_toEndOf="@+id/btn_nickname_cancel"
-        app:layout_constraintTop_toBottomOf="@+id/et_nickname" />
-
-    <Button
-        android:text="Cancel"
-        android:id="@+id/btn_nickname_cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="91dp"
-        android:layout_marginLeft="91dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/btn_nickname"
-        app:layout_constraintStart_toStartOf="@+id/et_nickname" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
