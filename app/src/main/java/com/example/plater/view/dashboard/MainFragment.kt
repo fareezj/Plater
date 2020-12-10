@@ -46,8 +46,6 @@ class MainFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -58,22 +56,18 @@ class MainFragment : Fragment() {
             Log.i("Aryan", it.toString())
         })
 
-        showNicknameDialog()
-
         userDataStore.getUserState.asLiveData()
                 .observe(requireActivity(), Observer {
                     if (it == false) {
                         Constants.IS_FIRST_TIME = it
                         if(!Constants.IS_FIRST_TIME){
-
-                            et_username.visibility = View.GONE
-                            btn_input_username.visibility = View.GONE
                             userDataStore.getUsername.asLiveData().observe(requireActivity(), Observer {
                                 tv_username.text = it.toString()
                             })
                         }
 
                     }else {
+                        showNicknameDialog()
                     }
                 })
 

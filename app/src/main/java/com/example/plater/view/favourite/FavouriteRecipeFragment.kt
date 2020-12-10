@@ -7,14 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.plater.R
 import com.example.plater.viewModel.RecipeViewModel
 import kotlinx.android.synthetic.main.fragment_favourite_recipe.*
+import kotlinx.android.synthetic.main.toolbar_with_back_button.*
 
 class FavouriteRecipeFragment : Fragment() {
 
     private lateinit var recipeViewModel: RecipeViewModel
+    private lateinit var navController: NavController
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,6 +31,9 @@ class FavouriteRecipeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        navController = Navigation.findNavController(view)
+        setupToolbar()
 
         // Init Recycler View
         val recyclerView = rv_fav_recipe_list
@@ -41,6 +49,13 @@ class FavouriteRecipeFragment : Fragment() {
             recipes?.let { adapter.setFavRecipes(it) }
         })
 
+    }
+
+    private fun setupToolbar() {
+        tv_toolbar_title.text = "Favourite Recipes"
+        iv_toolbar_back_button.setOnClickListener {
+            navController.navigateUp()
+        }
     }
 
 
