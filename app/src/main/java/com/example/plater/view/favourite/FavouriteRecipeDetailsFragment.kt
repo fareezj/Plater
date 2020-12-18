@@ -1,5 +1,7 @@
 package com.example.plater.view.favourite
 
+import android.app.Dialog
+import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -7,10 +9,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.plater.R
@@ -25,6 +30,8 @@ import kotlinx.android.synthetic.main.toolbar_favourite_details.*
 import kotlinx.android.synthetic.main.toolbar_with_back_button.*
 import kotlinx.android.synthetic.main.toolbar_with_back_button.iv_toolbar_back_button
 import kotlinx.android.synthetic.main.toolbar_with_back_button.tv_toolbar_title
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.ArrayList
 
 
@@ -32,6 +39,7 @@ class FavouriteRecipeDetailsFragment : Fragment() {
 
     private lateinit var navController: NavController
     private lateinit var viewModel: RecipeViewModel
+    private var inputResult: String = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -70,6 +78,27 @@ class FavouriteRecipeDetailsFragment : Fragment() {
         setupToolbar(fetchedName, fetchedID);
         setupUI(collectedFavData)
 
+        btn_edit_fav_title.setOnClickListener {
+            editTitleDialog(fetchedName)
+        }
+
+    }
+
+    private fun editTitleDialog(favTitle: String): Dialog {
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+        val inflater = this.layoutInflater
+        val dialogView = inflater.inflate(R.layout.dialog_custom, null)
+        dialogBuilder.setView(dialogView)
+        val input = dialogView.findViewById(R.id.et_fav_title) as EditText
+        input.setText(favTitle)
+        dialogBuilder.setPositiveButton(getString(R.string.okay_text)) { dialog, which ->
+            inputResult = input.text.toString()
+            tv_recipe_title_detail_fav.setText(inputResult.toString())
+            Log.i("Fav", "${inputResult.toString()}")
+            dialog.dismiss()
+        }
+        dialogBuilder.setNegativeButton(getString(R.string.cancel_text)) { dialog, which -> dialog!!.dismiss() }
+        return dialogBuilder.show()
     }
 
     private fun setupToolbar(favTitle: String, favId: Int) {
