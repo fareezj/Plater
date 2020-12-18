@@ -19,6 +19,6 @@ interface RecipeDAO {
     @Query("DELETE FROM favourite_recipe")
     suspend fun deleteALLFavouriteRecipe()
 
-    @Query("DELETE FROM favourite_recipe WHERE recipe_name = :recipeName")
-    suspend fun deleteFavouriteRecipe(recipeName: String);
+    @Query("DELETE FROM favourite_recipe WHERE id = :recipeId")
+    suspend fun deleteFavouriteRecipe(recipeId: Int);
 }

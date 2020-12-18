@@ -39,8 +39,8 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
         repository.deleteAllFavRecipe()
     }
 
-    fun deleteFavRecipe(recipeName: String) = viewModelScope.launch (Dispatchers.IO) {
-        repository.deleteFavRecipe(recipeName)
+    fun deleteFavRecipe(recipeId: Int) = viewModelScope.launch (Dispatchers.IO) {
+        repository.deleteFavRecipe(recipeId)
     }
 
     fun requestGetRecipeFromApi(query: String): Observable<RecipeApiModel>{

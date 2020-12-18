@@ -10,22 +10,28 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.example.plater.R
 import com.example.plater.model.RecipeApiModel
 import com.example.plater.model.RecipeRoomModel
+import com.example.plater.viewModel.RecipeViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_favourite_recipe_details.*
 import kotlinx.android.synthetic.main.fragment_recipe_details.*
+import kotlinx.android.synthetic.main.toolbar_favourite_details.*
 import kotlinx.android.synthetic.main.toolbar_with_back_button.*
+import kotlinx.android.synthetic.main.toolbar_with_back_button.iv_toolbar_back_button
+import kotlinx.android.synthetic.main.toolbar_with_back_button.tv_toolbar_title
 import java.util.ArrayList
 
 
 class FavouriteRecipeDetailsFragment : Fragment() {
 
     private lateinit var navController: NavController
+    private lateinit var viewModel: RecipeViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -37,6 +43,7 @@ class FavouriteRecipeDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         navController = Navigation.findNavController(view);
+        viewModel = ViewModelProvider(this).get(RecipeViewModel::class.java)
 
         val fetchedID: Int = requireArguments().getInt("favID")
         val fetchedName: String? = requireArguments().getString("favName")
@@ -60,14 +67,18 @@ class FavouriteRecipeDetailsFragment : Fragment() {
             fetchedCarbs!!
         )
 
-        setupToolbar(fetchedName);
+        setupToolbar(fetchedName, fetchedID);
         setupUI(collectedFavData)
 
     }
 
-    private fun setupToolbar(favTitle: String) {
+    private fun setupToolbar(favTitle: String, favId: Int) {
         tv_toolbar_title.text = favTitle
         iv_toolbar_back_button.setOnClickListener {
+            navController.navigateUp()
+        }
+        iv_delete_favourite.setOnClickListener {
+            viewModel.deleteFavRecipe(favId)
             navController.navigateUp()
         }
     }

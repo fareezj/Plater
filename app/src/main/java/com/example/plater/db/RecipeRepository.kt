@@ -19,8 +19,8 @@ class RecipeRepository (private val recipeDAO: RecipeDAO) {
         recipeDAO.deleteALLFavouriteRecipe()
     }
 
-    suspend fun  deleteFavRecipe(recipeName: String) {
-        recipeDAO.deleteFavouriteRecipe(recipeName)
+    suspend fun  deleteFavRecipe(recipeId: Int) {
+        recipeDAO.deleteFavouriteRecipe(recipeId)
     }
 
 
