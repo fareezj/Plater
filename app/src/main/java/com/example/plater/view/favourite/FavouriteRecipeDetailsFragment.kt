@@ -80,6 +80,7 @@ class FavouriteRecipeDetailsFragment : Fragment() {
         iv_delete_favourite.setOnClickListener {
             viewModel.deleteFavRecipe(favId)
             navController.navigateUp()
+            Snackbar.make(requireView(), "$favTitle deleted !", Snackbar.LENGTH_SHORT).show()
         }
     }
 
