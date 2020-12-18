@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.example.plater.R
 import com.example.plater.model.RecipeApiModel
 import com.example.plater.model.RecipeRoomModel
@@ -17,12 +19,13 @@ import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_favourite_recipe_details.*
 import kotlinx.android.synthetic.main.fragment_recipe_details.*
+import kotlinx.android.synthetic.main.toolbar_with_back_button.*
 import java.util.ArrayList
 
 
 class FavouriteRecipeDetailsFragment : Fragment() {
 
-
+    private lateinit var navController: NavController
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -32,6 +35,8 @@ class FavouriteRecipeDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        navController = Navigation.findNavController(view);
 
         val fetchedID: Int = requireArguments().getInt("favID")
         val fetchedName: String? = requireArguments().getString("favName")
@@ -55,10 +60,16 @@ class FavouriteRecipeDetailsFragment : Fragment() {
             fetchedCarbs!!
         )
 
-        Log.i("AKU", collectedFavData.toString())
-
+        setupToolbar(fetchedName);
         setupUI(collectedFavData)
 
+    }
+
+    private fun setupToolbar(favTitle: String) {
+        tv_toolbar_title.text = favTitle
+        iv_toolbar_back_button.setOnClickListener {
+            navController.navigateUp()
+        }
     }
 
     private fun setupUI(data: RecipeRoomModel){
