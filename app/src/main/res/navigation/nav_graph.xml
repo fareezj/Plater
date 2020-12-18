@@ -46,9 +46,13 @@
     </fragment>
     <fragment
         android:id="@+id/favouriteRecipeFragment"
-        android:name="com.example.plater.view.favourite.FavouriteRecipeFragment"
+        android:name="com.example.plater.view.favourite.FavouriteRecipeListFragment"
         android:label="fragment_favourite_recipe"
-        tools:layout="@layout/fragment_favourite_recipe" />
+        tools:layout="@layout/fragment_favourite_recipe" >
+        <action
+            android:id="@+id/action_favouriteRecipeFragment_to_favouriteRecipeDetailsFragment"
+            app:destination="@id/favouriteRecipeDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.plater.view.login.LoginFragment"
@@ -66,4 +70,9 @@
         android:name="com.example.plater.view.register.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" />
+    <fragment
+        android:id="@+id/favouriteRecipeDetailsFragment"
+        android:name="com.example.plater.view.favourite.FavouriteRecipeDetailsFragment"
+        android:label="fragment_favourite_recipe_details"
+        tools:layout="@layout/fragment_favourite_recipe_details" />
 </navigation>

@@ -15,7 +15,7 @@ import com.example.plater.viewModel.RecipeViewModel
 import kotlinx.android.synthetic.main.fragment_favourite_recipe.*
 import kotlinx.android.synthetic.main.toolbar_with_back_button.*
 
-class FavouriteRecipeFragment : Fragment() {
+class FavouriteRecipeListFragment : Fragment() {
 
     private lateinit var recipeViewModel: RecipeViewModel
     private lateinit var navController: NavController
@@ -37,7 +37,7 @@ class FavouriteRecipeFragment : Fragment() {
 
         // Init Recycler View
         val recyclerView = rv_fav_recipe_list
-        val adapter = FavouriteRecipeAdapter(requireContext())
+        val adapter = FavouriteRecipeListAdapter(requireContext())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 

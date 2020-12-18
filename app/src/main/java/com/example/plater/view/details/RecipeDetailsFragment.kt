@@ -157,9 +157,9 @@ class RecipeDetailsFragment : Fragment() {
             tv_carbs.text = carbsDouble.toString() + carbsUnit
 
             // ROOM COLLECTIONS
-            room_fat_stat = fatUnit
-            room_carbs_stat = carbsUnit
-            room_protein_stat = proteinUnit
+            room_fat_stat = fatDouble.toString()
+            room_carbs_stat = proteinDouble.toString()
+            room_protein_stat = carbsDouble.toString()
 
         }
 
@@ -179,7 +179,7 @@ class RecipeDetailsFragment : Fragment() {
                         0,
                         data.label.toString(),
                         data.image.toString(),
-                        data.dietLabel.toString(),
+                        data.dietLabel?.elementAt(0)!!,
                         data.healthLabel!!,
                         data.ingredients!!,
                         room_fat_stat.toString(),
@@ -187,6 +187,8 @@ class RecipeDetailsFragment : Fragment() {
                         room_protein_stat.toString()
                 )
                 recipeViewModel.insertFavRecipe(favRecipeData)
+                Log.i("AKU", favRecipeData.toString())
+
 
                 room_fat_stat = null
                 room_carbs_stat = null

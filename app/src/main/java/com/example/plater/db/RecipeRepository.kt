@@ -12,7 +12,7 @@ class RecipeRepository (private val recipeDAO: RecipeDAO) {
     }
 
     suspend fun updateFavRecipe(recipe: RecipeRoomModel){
-        recipeDAO.insertFavouriteRecipe(recipe)
+        recipeDAO.updateFavRecipe(recipe)
     }
 
     suspend fun deleteAllFavRecipe(){
