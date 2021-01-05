@@ -40,6 +40,8 @@ class FavouriteRecipeDetailsFragment : Fragment() {
     private lateinit var navController: NavController
     private lateinit var viewModel: RecipeViewModel
     private var inputResult: String = ""
+    private var healthList: MutableList<String> = mutableListOf()
+    private lateinit var roomModel: RecipeRoomModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -63,6 +65,13 @@ class FavouriteRecipeDetailsFragment : Fragment() {
         val fetchedHealth: List<String>? = requireArguments().getStringArrayList("favHealth")
         val fetchedIng: List<String>? = requireArguments().getStringArrayList("favIng")
 
+        roomModel = RecipeRoomModel(fetchedID, fetchedName!!, fetchedImage!!, fetchedDiet!!,
+                fetchedHealth!!, fetchedIng!!, fetchedFats!!, fetchedProtein!!, fetchedCarbs!! )
+
+        roomModel.recipeName = "Ayam"
+
+        Log.i("ROOOOm", roomModel.toString())
+
         val collectedFavData = RecipeRoomModel(
             fetchedID,
             fetchedName!!,
@@ -79,12 +88,12 @@ class FavouriteRecipeDetailsFragment : Fragment() {
         setupUI(collectedFavData)
 
         btn_edit_fav_title.setOnClickListener {
-            editTitleDialog(fetchedName)
+            editTitleDialog(fetchedName, fetchedID)
         }
 
     }
 
-    private fun editTitleDialog(favTitle: String): Dialog {
+    private fun editTitleDialog(favTitle: String, favId: Int): Dialog {
         val dialogBuilder = AlertDialog.Builder(requireContext())
         val inflater = this.layoutInflater
         val dialogView = inflater.inflate(R.layout.dialog_custom, null)
@@ -94,7 +103,7 @@ class FavouriteRecipeDetailsFragment : Fragment() {
         dialogBuilder.setPositiveButton(getString(R.string.okay_text)) { dialog, which ->
             inputResult = input.text.toString()
             tv_recipe_title_detail_fav.setText(inputResult.toString())
-            Log.i("Fav", "${inputResult.toString()}")
+            viewModel.updateFavTitle(inputResult, favId)
             dialog.dismiss()
         }
         dialogBuilder.setNegativeButton(getString(R.string.cancel_text)) { dialog, which -> dialog!!.dismiss() }
@@ -140,7 +149,11 @@ class FavouriteRecipeDetailsFragment : Fragment() {
                 ll_healthCheck_fav.addView(rowTextView)
                 rowTextView.setPadding(20,10,10,10)
                 rowTextView.setTextColor(Color.BLACK)
+                healthLabel.map {
+                    healthList.add(it)
+                }
             }
+            Log.i("RECIPE", healthList.toString())
         }
 
         if(!ingredientList.isNullOrEmpty()){

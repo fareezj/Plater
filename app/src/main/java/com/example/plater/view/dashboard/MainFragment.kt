@@ -109,3 +109,16 @@ class MainFragment : Fragment() {
     }
 }
 
+//private fun showDialogSettingsDeeplink() {
+//    val builder = AlertDialog.Builder(requireActivity())
+//    builder.setTitle(getString(R.string.permission_phone))
+//    builder.setMessage(
+//            getString(R.string.permission_enable_prompt)
+//    )
+//    builder.setPositiveButton(getString(R.string.permission_enable_go)) { dialog, which ->
+//        dialog?.cancel()
+//        openSettings()
+//    }
+//    builder.setNegativeButton(getString(R.string.btn_cancel)) { dialog, which ->
+//        dialog?.cancel()
+//    }

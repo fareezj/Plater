@@ -35,6 +35,10 @@ class RecipeViewModel(application: Application): AndroidViewModel(application) {
         repository.updateFavRecipe(recipe)
     }
 
+    fun updateFavTitle(title: String, id: Int) = viewModelScope.launch (Dispatchers.IO) {
+        repository.updateFavTitle(title, id)
+    }
+
     fun deleteAllFavRecipe() = viewModelScope.launch (Dispatchers.IO) {
         repository.deleteAllFavRecipe()
     }

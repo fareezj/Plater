@@ -15,6 +15,10 @@ class RecipeRepository (private val recipeDAO: RecipeDAO) {
         recipeDAO.updateFavRecipe(recipe)
     }
 
+    suspend fun updateFavTitle(title: String, id: Int){
+        recipeDAO.updateFavTitle(title, id)
+    }
+
     suspend fun deleteAllFavRecipe(){
         recipeDAO.deleteALLFavouriteRecipe()
     }

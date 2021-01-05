@@ -11,7 +11,7 @@ data class RecipeRoomModel(
         val id: Int,
 
         @ColumnInfo(name = "recipe_name")
-        val recipeName: String,
+        var recipeName: String,
 
         @ColumnInfo(name = "recipe_image")
         val recipeImage: String,

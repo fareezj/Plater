@@ -16,6 +16,9 @@ interface RecipeDAO {
     @Update
     suspend fun updateFavRecipe(recipe: RecipeRoomModel)
 
+    @Query("UPDATE favourite_recipe SET recipe_name = :title WHERE id = :recipeId")
+    suspend fun updateFavTitle(title: String, recipeId: Int)
+
     @Query("DELETE FROM favourite_recipe")
     suspend fun deleteALLFavouriteRecipe()
 
