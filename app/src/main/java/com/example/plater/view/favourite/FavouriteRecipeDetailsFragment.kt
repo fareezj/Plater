@@ -93,21 +93,25 @@ class FavouriteRecipeDetailsFragment : Fragment() {
 
     }
 
-    private fun editTitleDialog(favTitle: String, favId: Int): Dialog {
-        val dialogBuilder = AlertDialog.Builder(requireContext())
-        val inflater = this.layoutInflater
-        val dialogView = inflater.inflate(R.layout.dialog_custom, null)
-        dialogBuilder.setView(dialogView)
+    private fun editTitleDialog(favTitle: String, favId: Int) {
+        val builder = AlertDialog.Builder(requireActivity())
+        builder.setIcon(R.drawable.ic_baseline_star_24)
+        builder.setTitle("Edit Recipe Title")
+        val dialogView = layoutInflater.inflate(R.layout.dialog_custom, null)
+        builder.setView(dialogView)
         val input = dialogView.findViewById(R.id.et_fav_title) as EditText
         input.setText(favTitle)
-        dialogBuilder.setPositiveButton(getString(R.string.okay_text)) { dialog, which ->
+        builder.setPositiveButton("Edit") { dialog, which ->
             inputResult = input.text.toString()
-            tv_recipe_title_detail_fav.setText(inputResult.toString())
+            tv_recipe_title_detail_fav.setText(inputResult)
+            tv_toolbar_title.setText(inputResult)
             viewModel.updateFavTitle(inputResult, favId)
-            dialog.dismiss()
+            dialog?.cancel()
         }
-        dialogBuilder.setNegativeButton(getString(R.string.cancel_text)) { dialog, which -> dialog!!.dismiss() }
-        return dialogBuilder.show()
+        builder.setNegativeButton("Cancel") { dialog, which ->
+            dialog?.cancel()
+        }
+        builder.show()
     }
 
     private fun setupToolbar(favTitle: String, favId: Int) {
